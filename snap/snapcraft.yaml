@@ -1,0 +1,25 @@
+name: topgrade
+base: core18 # the base snap is the execution environment for this snap
+adopt-info: topgrade
+summary: Upgrade everything
+description: |
+  Keeping your system up to date mostly involves invoking more than a single package manager.
+  This usually results in big shell one-liners saved in your shell history. Topgrade tries
+  to solve this problem by detecting which tools you use and run their appropriate package
+  managers.
+
+grade: stable
+confinement: classic
+
+parts:
+  topgrade:
+    plugin: rust
+    source: .
+    override-build: |
+      export RUST_BACKTRACE=1
+      snapcraftctl build
+      snapcraftctl set-version $(git describe --tags)
+
+apps:
+  topgrade:
+    command: bin/topgrade
