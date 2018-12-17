@@ -16,6 +16,7 @@ main() {
     esac
 
     test -f Cargo.lock || cargo generate-lockfile
+    export RUSTFLAGS="-D warnings"
 
     # TODO Update this to build the artifacts that matter to you
     cross rustc --bin topgrade --target $TARGET --release --all-features -- -C lto
